@@ -1,62 +1,62 @@
-# CyberX — фронтенд и бэкенд проекта
+# CyberX — Frontend and Backend Project
 
-Полноценный проект с клиентской частью на React (Create React App) и API на Node.js (Express) с базой данных PostgreSQL. Бэкенд обрабатывает форму обратной связи и сохраняет заявки в БД, фронтенд — публичный сайт CyberX.
+A full-stack project with a React client (Create React App) and Node.js API (Express) with PostgreSQL database. The backend handles contact form submissions and stores requests in the database, while the frontend serves as the public CyberX website.
 
-## Стек технологий
-- Фронтенд: React 19 (CRA), React Router, styled-components, axios
-- Бэкенд: Node.js, Express, CORS, dotenv, pg
-- База данных: PostgreSQL
+## Tech Stack
+- Frontend: React 19 (CRA), React Router, styled-components, axios
+- Backend: Node.js, Express, CORS, dotenv, pg
+- Database: PostgreSQL
 
-## Структура репозитория
+## Repository Structure
 ```
 CyberXСайт/
   backend/
-    index.js            # Express API (контакты, статус)
-    package.json        # Скрипты и зависимости бэкенда
+    index.js            # Express API (contacts, status)
+    package.json        # Backend scripts and dependencies
     package-lock.json
-    schema.sql          # Схема БД (таблица contacts)
+    schema.sql          # Database schema (contacts table)
   frontend/
-    package.json        # Скрипты и зависимости фронтенда (CRA)
+    package.json        # Frontend scripts and dependencies (CRA)
     package-lock.json
     public/
-      index.html        # HTML-шаблон
+      index.html        # HTML template
       X.png, manifest.json, ...
     src/
-      index.js, App.js  # Точка входа и корневой компонент
-      pages/            # Страницы: Home, About, Catalog, Contacts, Partners, CyberBatyr
-      components/       # Общие компоненты: Header, Footer, ProductCard
-      data/             # Демоданные: catalog.js, news.js
-      images/           # Статические изображения
+      index.js, App.js  # Entry point and root component
+      pages/            # Pages: Home, About, Catalog, Contacts, Partners, CyberBatyr
+      components/       # Shared components: Header, Footer, ProductCard
+      data/             # Demo data: catalog.js, news.js
+      images/           # Static images
 ```
 
-## Требования
-- Node.js 18+ (рекомендуется LTS)
+## Requirements
+- Node.js 18+ (LTS recommended)
 - npm 8+
-- PostgreSQL 13+ (локально или в облаке)
+- PostgreSQL 13+ (local or cloud)
 
-## Установка
-Выполните команды один раз для установки зависимостей в обеих частях:
+## Installation
+Run these commands once to install dependencies for both parts:
 
 ```bash
-# 1) Бэкенд
+# 1) Backend
 cd CyberXСайт/backend
 npm install
 
-# 2) Фронтенд
+# 2) Frontend
 cd ../frontend
 npm install
 ```
 
-> На Windows используйте терминал PowerShell или cmd. Команды выше типовые.
+> On Windows, use PowerShell or cmd terminal. The commands above are standard.
 
-## Настройка окружения (бэкенд)
-Создайте файл `.env` в папке `backend`:
+## Environment Setup (Backend)
+Create a `.env` file in the `backend` folder:
 
 ```env
-# Сервер
+# Server
 PORT=5000
 
-# Подключение к PostgreSQL
+# PostgreSQL connection
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=cyberx
@@ -64,94 +64,94 @@ DB_USER=postgres
 DB_PASSWORD=postgres
 ```
 
-Переменные имеют значения по умолчанию в `index.js`, но рекомендуется задать их явно в `.env`.
+Variables have default values in `index.js`, but it's recommended to set them explicitly in `.env`.
 
-## Инициализация базы данных
-1. Создайте БД и таблицы с помощью `schema.sql`:
+## Database Initialization
+1. Create the database and tables using `schema.sql`:
    ```bash
-   # Из папки backend или указав полный путь к файлу
+   # From the backend folder or specify the full file path
    psql -U postgres -h localhost -p 5432 -c "CREATE DATABASE cyberx;"
    psql -U postgres -h localhost -p 5432 -d cyberx -f schema.sql
    ```
-   - Понадобится установленный `psql` (клиент PostgreSQL). На Windows ставится вместе с PostgreSQL.
-   - Замените пользователя/пароль/порт при необходимости.
+   - You'll need `psql` (PostgreSQL client) installed. On Windows, it comes with PostgreSQL.
+   - Replace username/password/port if necessary.
 
-2. Проверьте подключение к БД: при старте бэкенд выведет "База данных подключена успешно" либо ошибку.
+2. Verify database connection: on startup, the backend will display "Database connected successfully" or an error.
 
-## Запуск в режиме разработки
-Откройте два терминала:
+## Running in Development Mode
+Open two terminals:
 
-- Терминал 1 — бэкенд:
+- Terminal 1 — Backend:
   ```bash
   cd CyberXСайт/backend
   npm run dev
-  # или npm start
+  # or npm start
   # API: http://localhost:5000
   ```
 
-- Терминал 2 — фронтенд:
+- Terminal 2 — Frontend:
   ```bash
   cd CyberXСайт/frontend
   npm start
   # UI: http://localhost:3000
   ```
 
-Фронтенд проксирует запросы на бэкенд (см. `frontend/package.json`: `"proxy": "http://localhost:5000"`).
+The frontend proxies requests to the backend (see `frontend/package.json`: `"proxy": "http://localhost:5000"`).
 
-## Сборка продакшн-версии фронтенда
+## Building Production Frontend
 ```bash
 cd CyberXСайт/frontend
 npm run build
-# Готовая сборка будет в папке build/
+# The production build will be in the build/ folder
 ```
 
-> Деплой фронтенда и бэкенда зависит от вашей инфраструктуры (VPS/PAAS/Docker/Render/Heroku и т.д.).
+> Deployment of frontend and backend depends on your infrastructure (VPS/PAAS/Docker/Render/Heroku, etc.).
 
 ## API
-Базовый URL по умолчанию: `http://localhost:5000`
+Default base URL: `http://localhost:5000`
 
 - POST `/api/contacts`
-  - Назначение: сохранить заявку из формы контактов
-  - Тело запроса (JSON):
+  - Purpose: save a contact form submission
+  - Request body (JSON):
     ```json
     {
-      "name": "Иван Иванов",
-      "email": "ivan@example.com",
+      "name": "John Doe",
+      "email": "john@example.com",
       "phone": "+77001234567",
-      "subject": "Вопрос по услугам",
-      "message": "Хотим обсудить сотрудничество"
+      "subject": "Service inquiry",
+      "message": "We'd like to discuss cooperation"
     }
     ```
-  - Ответ 201:
+  - Response 201:
     ```json
     {
       "success": true,
-      "message": "Сообщение успешно отправлено",
+      "message": "Message sent successfully",
       "contactId": 1
     }
     ```
 
 - GET `/api/status`
-  - Проверка состояния API: `{ "status": "API работает" }`
+  - API health check: `{ "status": "API is running" }`
 
-## Полезные скрипты
-- Бэкенд (`CyberXСайт/backend/package.json`):
-  - `npm start` — запуск сервера Express
-  - `npm run dev` — запуск с `nodemon` (перезапуск при изменениях)
-- Фронтенд (`CyberXСайт/frontend/package.json`):
-  - `npm start` — режим разработки CRA
-  - `npm run build` — сборка
-  - `npm test` — тесты CRA
+## Useful Scripts
+- Backend (`CyberXСайт/backend/package.json`):
+  - `npm start` — run Express server
+  - `npm run dev` — run with `nodemon` (auto-restart on changes)
+- Frontend (`CyberXСайт/frontend/package.json`):
+  - `npm start` — CRA development mode
+  - `npm run build` — production build
+  - `npm test` — CRA tests
 
-## Типичные проблемы и решения
-- Не удаётся подключиться к PostgreSQL
-  - Проверьте `.env` и доступность хоста/порта.
-  - Убедитесь, что база `cyberx` создана и применён `schema.sql`.
-- CORS/прокси в разработке
-  - Используйте `npm start` во фронтенде — прокси настроен (`http://localhost:5000`).
-- Порт занят
-  - Поменяйте `PORT` в `.env` бэкенда или другой сервис, занимающий порт.
+## Common Issues and Solutions
+- Cannot connect to PostgreSQL
+  - Check `.env` and verify host/port accessibility.
+  - Ensure the `cyberx` database is created and `schema.sql` is applied.
+- CORS/proxy in development
+  - Use `npm start` in the frontend — proxy is configured (`http://localhost:5000`).
+- Port already in use
+  - Change `PORT` in backend `.env` or stop the service occupying the port.
 
-## Лицензия
-- Бэкенд: ISC (см. `backend/package.json`).
-- Фронтенд: по умолчанию лицензия вашего проекта; обновите при необходимости.
+## License
+- Backend: ISC (see `backend/package.json`).
+- Frontend: your project's default license; update as needed.
